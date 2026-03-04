@@ -113,17 +113,6 @@ src/
 
 ---
 
-## Common Issues
-
-| Issue | Fix |
-|---|---|
-| Empty page on `/register` | Use `element={<Register />}` not `component={Register}` |
-| `session` is null after signup | Disable email confirmation in Supabase dashboard |
-| Env variables undefined | Prefix with `VITE_` and restart dev server |
-| `.env` pushed to GitHub | Run `git rm --cached .env` and regenerate your keys |
-
----
-
 ## Special Thanks 🙏
 
 A huge thank you to this YouTube channel for the guidance and support in implementing Supabase authentication with React:
@@ -132,4 +121,4 @@ A huge thank you to this YouTube channel for the guidance and support in impleme
 
 ---
 
-*Happy coding! 🚀*
+*Happy coding Everyone! 🚀*
