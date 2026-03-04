@@ -1,16 +1,135 @@
-# React + Vite
+# Supabase Authentication with React — Complete Guide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js installed
+- A React project (Vite recommended)
+- A Supabase account → [supabase.com](https://supabase.com)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Step 1: Create a Supabase Project
 
-## Expanding the ESLint configuration
+1. Go to [supabase.com](https://supabase.com) and sign in
+2. Click **"New Project"**
+3. Fill in your project name, database password, and region
+4. Wait for the project to finish setting up
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Step 2: Disable Email Confirmation ⚠️
+
+> This is important for development so users can log in immediately after signup without needing to verify their email.
+
+1. In your Supabase dashboard, go to **Authentication** in the left sidebar
+2. Click **Providers**
+3. Click on **Email**
+4. Toggle **OFF** → `"Enable email confirmations"`
+5. Click **Save**
+
+```
+Dashboard → Authentication → Providers → Email → Disable "Confirm email"
+```
+
+> ⚠️ Re-enable this in production to prevent fake signups.
+
+---
+
+## Step 3: Get Your Supabase Credentials
+
+1. Go to **Settings → API** in your Supabase dashboard
+2. Copy your:
+   - `Project URL`
+   - `anon / public` key
+
+---
+
+## Step 4: Install Supabase in Your React Project
+
+```bash
+npm install @supabase/supabase-js
+```
+
+---
+
+## Step 5: Set Up Environment Variables
+
+Create a `.env` file in your project root:
+
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+
+```bash
+# .gitignore
+.env
+.env.local
+```
+
+---
+
+## Step 6: Create the Supabase Client
+
+Create a file `src/supabaseClient.js`:
+
+```js
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+```
+
+---
+
+## Step 7: Set Up React Router
+
+Install React Router:
+
+```bash
+npm install react-router-dom
+```
+---
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   └── Register.jsx
+├── supabaseClient.js
+├── App.jsx
+└── main.jsx
+.env
+.gitignore
+```
+
+---
+
+## Common Issues
+
+| Issue | Fix |
+|---|---|
+| Empty page on `/register` | Use `element={<Register />}` not `component={Register}` |
+| `session` is null after signup | Disable email confirmation in Supabase dashboard |
+| Env variables undefined | Prefix with `VITE_` and restart dev server |
+| `.env` pushed to GitHub | Run `git rm --cached .env` and regenerate your keys |
+
+---
+
+## Special Thanks 🙏
+
+A huge thank you to this YouTube channel for the guidance and support in implementing Supabase authentication with React:
+
+👉 [Watch the tutorial here](https://www.youtube.com/watch?v=Q7-DI39epR8)
+
+---
+
+*Happy coding! 🚀*
